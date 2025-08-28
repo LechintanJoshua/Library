@@ -1,0 +1,74 @@
+:root {
+    --light-pink: #D6A99D;
+    --light-yellow: #FBF3D5;
+    --grey-green-100: #9CAFAA;
+    --grey-green-500: #69847d;
+    --light-green: #D6DAC8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 1fr 6fr 1fr;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--light-pink);
+    display: flex;
+    align-items: center;
+}
+
+main {
+    background-color: var(--light-yellow);
+}
+
+footer {
+    background-color: var(--grey-green-100);
+}
+
+form {
+    background-color: var(--light-green);
+}
+
+.container {
+    width: 1300px;
+    margin: 0 auto;
+}
+
+.header.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header.container button {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 0.5px solid black;
+    background-color: var(--grey-green-100);
+}
+
+.header.container button:hover {
+    transition: 0.2s;
+    padding: 1.1rem;
+    background-color: var(--grey-green-500);
+}
+
+/* main {
+
+} */
+
+footer {
+    display: flex;
+    align-items: center;
+}
+
+footer .container {
+    text-align: center;
+}
