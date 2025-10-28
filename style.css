@@ -14,14 +14,16 @@
 
 body {
     display: grid;
-    grid-template-rows: 1fr 6fr 1fr;
+    grid-template-rows: 100px 1fr 50px;
     min-height: 100vh;
+    font-size: 1rem;
 }
 
 header {
     background-color: var(--light-pink);
     display: flex;
     align-items: center;
+    justify-content: space-around;
 }
 
 main {
@@ -30,45 +32,94 @@ main {
 
 footer {
     background-color: var(--grey-green-100);
+    text-align: center;
 }
 
 form {
     background-color: var(--light-green);
+    border: 1px solid red;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    height: 300px;
+    width: 400px;
 }
 
-.container {
-    width: 1300px;
-    margin: 0 auto;
-}
-
-.header.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header.container button {
-    padding: 1rem;
-    border-radius: 0.5rem;
+header button {
+    padding: 16px;
+    border-radius: 8px;
     border: 0.5px solid black;
     background-color: var(--grey-green-100);
 }
 
-.header.container button:hover {
+header button:hover {
     transition: 0.2s;
     padding: 1.1rem;
     background-color: var(--grey-green-500);
 }
 
-/* main {
-
-} */
+main h2 {
+    text-align: center;
+    margin-top: 1rem;
+}
 
 footer {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-footer .container {
-    text-align: center;
+/* dialog {
+    animation: fade-out 0.4s ease-out;
 }
+
+dialog:open {
+    animation: fade-in 0.4s ease-out;
+}
+
+dialog:open::backdrop {
+    background-color: black;
+    animation: backdrop-fade-in 0.4s ease-out forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: scaleY(0);
+        display: none;
+    }
+
+    100% {
+        oacity: 1;
+        transform: scaleY(1);
+        display: block;
+    }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+}
+
+@keyframes backdrop-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.25;
+  }
+}
+
+body,
+button {
+  font-family: system-ui;
+} */
