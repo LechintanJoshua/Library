@@ -4,6 +4,7 @@
     --grey-green-100: #9CAFAA;
     --grey-green-500: #69847d;
     --light-green: #D6DAC8;
+    --light-blue: #6ceeee;
 }
 
 * {
@@ -40,11 +41,13 @@ footer {
 
 form {
     background-color: var(--light-green);
-    border: 1px solid red;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+    border: 1px solid black;
     height: 300px;
-    width: 400px;
+    width: 300px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 header button {
@@ -64,6 +67,24 @@ main h2 {
     text-align: center;
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+dialog {
+    animation: fade-out 0.4s ease-out;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 16px;
+}
+
+dialog:open {
+    animation: fade-in 0.4s ease-out;
+}
+
+dialog:open::backdrop {
+    background-color: black;
+    animation: backdrop-fade-in 0.4s ease-out forwards;
 }
 
 .output {
@@ -86,46 +107,64 @@ main h2 {
     margin: 8px;
 }
 
-
-
-/* dialog {
-    animation: fade-out 0.4s ease-out;
+.ent {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    width: 90%;
 }
 
-dialog:open {
-    animation: fade-in 0.4s ease-out;
+.status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
 }
 
-dialog:open::backdrop {
-    background-color: black;
-    animation: backdrop-fade-in 0.4s ease-out forwards;
+.bld {
+    font-weight: bold;
+}
+
+.bld span {
+    color: red;
+}
+
+.dialog_btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.dialog_btns > button {
+    background-color: var(--light-blue);
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.dialog_btns > button:hover {
+    background-color: #42caca;
+    transition: 0.2s;
 }
 
 @keyframes fade-in {
-    0% {
-        opacity: 0;
-        transform: scaleY(0);
-        display: none;
-    }
-
-    100% {
-        oacity: 1;
-        transform: scaleY(1);
-        display: block;
-    }
+  0% {
+    opacity: 0;
+    scale: 0.9;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 @keyframes fade-out {
   0% {
     opacity: 1;
-    transform: scaleY(1);
-    display: block;
+    scale: 1;
   }
-
   100% {
     opacity: 0;
-    transform: scaleY(0);
-    display: none;
+    scale: 0.9;
   }
 }
 
@@ -135,11 +174,6 @@ dialog:open::backdrop {
   }
 
   100% {
-    opacity: 0.25;
+    opacity: 0.74;
   }
 }
-
-body,
-button {
-  font-family: system-ui;
-} */
