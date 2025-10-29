@@ -33,6 +33,9 @@ main {
 footer {
     background-color: var(--grey-green-100);
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 form {
@@ -60,13 +63,30 @@ header button:hover {
 main h2 {
     text-align: center;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.output {
+    margin: 0 auto;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 1rem;
+    gap: 1rem;
 }
+
+.card {
+    border-radius: 16px;
+    border: 2px solid black;
+    text-align: center;
+    box-shadow: 6px 4px 6px black;
+}
+
+.card > * {
+    margin: 8px;
+}
+
+
 
 /* dialog {
     animation: fade-out 0.4s ease-out;
