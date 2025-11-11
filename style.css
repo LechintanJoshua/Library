@@ -5,6 +5,9 @@
     --grey-green-500: #69847d;
     --light-green: #D6DAC8;
     --light-blue: #6ceeee;
+    --light-red: rgb(243, 105, 105);
+    --strong-red: rgb(249, 59, 59);
+    --strong-white: rgba(255, 255, 255, 0.97);
 }
 
 * {
@@ -126,7 +129,7 @@ dialog:open::backdrop {
 }
 
 .bld span {
-    color: red;
+    color: var(--light-red);
 }
 
 .dialog_btns {
@@ -144,6 +147,26 @@ dialog:open::backdrop {
 .dialog_btns > button:hover {
     background-color: #42caca;
     transition: 0.2s;
+}
+
+.card .buttons {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+}
+
+.del-book,
+.change-status-book {
+    background-color: var(--light-red);
+    color: var(--strong-white);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.del-book:hover,
+.change-status-book:hover {
+    background-color: var(--strong-red);
+    transition: 0.4s;
 }
 
 @keyframes fade-in {
