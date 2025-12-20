@@ -3,6 +3,7 @@ const addButton = document.querySelector('.add-book');
 const submitBtn = document.querySelector('.submit');
 const cancelBtn = document.querySelector('.cancel');
 const output = document.querySelector('.output');
+const form = document.querySelector('form');
 
 const myLibrary = [];
 
@@ -32,15 +33,7 @@ Book.prototype.getStatus = function () {
 
 Book.prototype.getID = function () {
     return this.id;
-}
-
-Book.prototype.changeStatus = function () {
-    if (this.status === 'Reading...') {
-        this.status = 'Finished';
-    } else {
-        this.status = 'Reading...'
-    }
-}
+}   
 
 function addBookToLibrary(Book) {
     myLibrary.push(Book);
@@ -53,6 +46,18 @@ function getBookFromForm () {
     const status = document.querySelector('input[name="status"]:checked').value;
     
     return new Book(inputName, inputAuthor, inputPages, status);
+}
+
+function listenBookCardRemoval (bookBtn, id, card) {
+    bookBtn.addEventListener('click', () => {
+        myLibrary.forEach(b => {
+            if (b.getID === id) {
+                console.log(typeof card);
+                console.log(card);
+                card.remove();
+            }
+        });
+    });
 }
 
 function createBookHTMLElement (Book) {
@@ -85,9 +90,25 @@ function createBookHTMLElement (Book) {
     card.appendChild(buttons);
 
     output.appendChild(card);
+    console.log(typeof card);
+    console.log(card);
+
+    changeStatusReading(changeStat, status);
+    listenBookCardRemoval(delBtn, Book.getID, card);
+}
+
+function changeStatusReading (changeStat, status) {
+    changeStat.addEventListener ('click', () => {        
+        if (status.textContent === 'Reading...') {
+            status.textContent = 'Finished';
+        } else {
+            status.textContent = 'Reading...'
+        }
+    });
 }
 
 addButton.addEventListener('click', () => {
+    form.reset();
     dialog.showModal();
 });
 
@@ -98,6 +119,7 @@ submitBtn.addEventListener('click', (event) => {
     createBookHTMLElement(book);
     dialog.close();
 });
+
 
 cancelBtn.addEventListener('click', (event) => {
     event.preventDefault();
