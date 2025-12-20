@@ -44,16 +44,16 @@ function getBookFromForm () {
     const inputAuthor = document.querySelector('#author').value;
     const inputPages = document.querySelector('#pages').value;
     const status = document.querySelector('input[name="status"]:checked').value;
-    
-    return new Book(inputName, inputAuthor, inputPages, status);
+
+    if (inputName !== '' && inputAuthor !== '' && inputPages !== '') {
+        return new Book(inputName, inputAuthor, inputPages, status);
+    }
 }
 
 function listenBookCardRemoval (bookBtn, id, card) {
     bookBtn.addEventListener('click', () => {
         myLibrary.forEach(b => {
             if (b.getID === id) {
-                console.log(typeof card);
-                console.log(card);
                 card.remove();
             }
         });
@@ -90,8 +90,6 @@ function createBookHTMLElement (Book) {
     card.appendChild(buttons);
 
     output.appendChild(card);
-    console.log(typeof card);
-    console.log(card);
 
     changeStatusReading(changeStat, status);
     listenBookCardRemoval(delBtn, Book.getID, card);
@@ -102,7 +100,7 @@ function changeStatusReading (changeStat, status) {
         if (status.textContent === 'Reading...') {
             status.textContent = 'Finished';
         } else {
-            status.textContent = 'Reading...'
+            status.textContent = 'Reading...';
         }
     });
 }
@@ -114,31 +112,15 @@ addButton.addEventListener('click', () => {
 
 submitBtn.addEventListener('click', (event) => {
     let book = getBookFromForm();
-    console.log(book);
-    addBookToLibrary(book);
-    createBookHTMLElement(book);
-    dialog.close();
-});
 
+    if (book !== undefined) {
+        addBookToLibrary(book);
+        createBookHTMLElement(book);
+        dialog.close();
+    }
+});
 
 cancelBtn.addEventListener('click', (event) => {
     event.preventDefault();
     dialog.close();
 });
-
-
-//             <div class="card">
-//     <div class="header">
-//         <h3>Title</h3>
-//     </div>
-
-//     <p class="book-name">Name</p>
-//     <p class="book-author">Author</p>
-//     <p class="book-pages">Pages</p>
-//     <p class="book-status">Status</p>
-
-//     <div class="buttons">
-//         <button class="change-status book">Change status</button>
-//         <button class="del book">Delete</button>
-//     </div>
-// </div>
