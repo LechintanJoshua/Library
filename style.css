@@ -90,6 +90,11 @@ dialog:open::backdrop {
     animation: backdrop-fade-in 0.4s ease-out forwards;
 }
 
+
+button:hover {
+    cursor: pointer;
+}
+
 .output {
     margin: 0 auto;
     width: 80%;
@@ -153,6 +158,7 @@ dialog:open::backdrop {
     margin-top: 24px;
     display: flex;
     gap: 12px;
+    justify-content: center;
 }
 
 .del-book,

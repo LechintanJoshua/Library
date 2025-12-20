@@ -2,6 +2,7 @@ const dialog = document.querySelector('dialog');
 const addButton = document.querySelector('.add-book');
 const submitBtn = document.querySelector('.submit');
 const cancelBtn = document.querySelector('.cancel');
+const output = document.querySelector('.output');
 
 const myLibrary = [];
 
@@ -68,19 +69,22 @@ function createBookHTMLElement (Book) {
     author.textContent = Book.getAuthor();
     pages.textContent = Book.getPages();
     status.textContent = Book.getStatus();
+    card.className = 'card';
     buttons.className = 'buttons';
     delBtn.className = 'del-book';
+    delBtn.textContent = 'Delete';
     changeStat.className = 'change-status-book';
+    changeStat.textContent = 'Change Status';
 
-    buttons.appendChild(delBtn);
     buttons.appendChild(changeStat);
+    buttons.appendChild(delBtn);
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(pages);
     card.appendChild(status);
     card.appendChild(buttons);
 
-    return card;
+    output.appendChild(card);
 }
 
 addButton.addEventListener('click', () => {
@@ -89,7 +93,9 @@ addButton.addEventListener('click', () => {
 
 submitBtn.addEventListener('click', (event) => {
     let book = getBookFromForm();
+    console.log(book);
     addBookToLibrary(book);
+    createBookHTMLElement(book);
     dialog.close();
 });
 
