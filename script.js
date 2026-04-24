@@ -1,126 +1,188 @@
-const dialog = document.querySelector('dialog');
-const addButton = document.querySelector('.add-book');
-const submitBtn = document.querySelector('.submit');
-const cancelBtn = document.querySelector('.cancel');
-const output = document.querySelector('.output');
-const form = document.querySelector('form');
+class Book {
+    #name;
+    #author;
+    #pages;
+    #status;
+    #id;
+        
+    constructor (name, author, pages, status) {
+        this.#name = name;
+        this.#author = author;
+        this.#pages = pages;
+        this.#status = status;
+        this.#id = crypto.randomUUID();
+    }
 
-const myLibrary = [];
+    getName () {
+        return this.#name;
+    }
 
-function Book (name, author, pages, status) {
-    this.name = name;
-    this.author = author;
-    this.pages = pages;
-    this.status = status;
-    this.id = crypto.randomUUID();
-}
+    getAuthor () {
+        return this.#author;
+    }
 
-Book.prototype.getName = function () {
-    return this.name;
-}
+    getPages () {
+        return this.#pages;
+    }
 
-Book.prototype.getAuthor = function () {
-    return this.author;
-}
+    getStatus () {
+        return this.#status;
+    }
 
-Book.prototype.getPages = function () {
-    return this.pages;
-}
+    setStatus(status) {
+        this.#status = status;
+    }
 
-Book.prototype.getStatus = function () {
-    return this.status;
-}
-
-Book.prototype.getID = function () {
-    return this.id;
-}   
-
-function addBookToLibrary(Book) {
-    myLibrary.push(Book);
-}
-
-function getBookFromForm () {
-    const inputName = document.querySelector('#name').value;
-    const inputAuthor = document.querySelector('#author').value;
-    const inputPages = document.querySelector('#pages').value;
-    const status = document.querySelector('input[name="status"]:checked').value;
-
-    if (inputName !== '' && inputAuthor !== '' && inputPages !== '') {
-        return new Book(inputName, inputAuthor, inputPages, status);
+    getId() {
+        return this.#id;
     }
 }
 
-function listenBookCardRemoval (bookBtn, id, card) {
-    bookBtn.addEventListener('click', () => {
-        myLibrary.forEach(b => {
-            if (b.getID === id) {
-                card.remove();
+class Library {
+    #myLibrary
+    #parser
+
+    constructor () {
+        this.#myLibrary = new Array();
+        this.#parser = new domParser(this);
+    }
+
+    getLibrary () {
+        return this.#myLibrary;
+    }
+
+    addBook(Book) {
+        this.#myLibrary.push(Book);
+    }
+
+    removeBook(Book) {
+        this.#myLibrary = this.#myLibrary.filter(b => b.getId() !== Book.getId());
+    }
+}
+
+class domParser {
+    #dialog;
+    #addButton;
+    #submitBtn;
+    #cancelBtn;
+    #output;
+    #form;
+    #inputName;
+    #inputAuthor;
+    #inputPages;
+    #status;
+    #LibraryRef;
+
+    constructor (LibraryRef) {
+        this.#dialog = document.querySelector('dialog');
+        this.#addButton = document.querySelector('.add-book');
+        this.#submitBtn = document.querySelector('.submit');
+        this.#cancelBtn = document.querySelector('.cancel');
+        this.#output = document.querySelector('.output');
+        this.#form = document.querySelector('form');
+        this.#LibraryRef = LibraryRef;
+
+        this.#addListenersButtons();
+    }
+
+    #getBookFromForm () {
+        this.#inputName = document.querySelector('#name').value;
+        this.#inputAuthor = document.querySelector('#author').value;
+        this.#inputPages = document.querySelector('#pages').value;
+        this.#status = document.querySelector('input[name="status"]:checked').value;
+
+        if (this.#inputName !== '' && this.#inputAuthor !== '' && this.#inputPages !== '') {
+            return new Book(this.#inputName, this.#inputAuthor, this.#inputPages, this.#status);
+        }
+    }
+
+    #listenForm() {
+        this.#form.addEventListener('submit', (event) => {
+            let book = this.#getBookFromForm();
+
+            if (book !== undefined) {
+                event.preventDefault();
+                this.#LibraryRef.addBook(book);
+                this.#createBookHTMLElement(book);
+            }
+
+            this.#dialog.close();
+        });
+    }
+
+    #addListenersButtons () {
+        this.#listenAddBtn();
+        this.#listenForm();
+        this.#listenCancelBtn();
+    }
+
+    #listenAddBtn () {
+        this.#addButton.addEventListener('click', () => {
+            this.#form.reset();
+            this.#dialog.showModal();
+        });
+    }
+
+    #listenCancelBtn () {
+        this.#cancelBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.#dialog.close();
+        });
+    }
+
+    #listenChangeStatusBtn(changeStat, status, Book) {
+        changeStat.addEventListener('click', () => {
+            if (status.textContent === 'Reading...') {
+                status.textContent = 'Finished';
+                Book.setStatus('Finished');
+            } else {
+                status.textContent = 'Reading...';
+                Book.setStatus('Reading...');
             }
         });
-    });
-}
-
-function createBookHTMLElement (Book) {
-    const card = document.createElement('div');
-    const title = document.createElement('h3');
-    const author = document.createElement('p');
-    const pages = document.createElement('p');
-    const status = document.createElement('p');
-    const buttons = document.createElement('div');
-    const delBtn = document.createElement('button');
-    const changeStat = document.createElement('button');
-
-    title.textContent = Book.getName();
-    author.textContent = Book.getAuthor();
-    pages.textContent = Book.getPages();
-    status.textContent = Book.getStatus();
-    card.className = 'card';
-    buttons.className = 'buttons';
-    delBtn.className = 'del-book';
-    delBtn.textContent = 'Delete';
-    changeStat.className = 'change-status-book';
-    changeStat.textContent = 'Change Status';
-
-    buttons.appendChild(changeStat);
-    buttons.appendChild(delBtn);
-    card.appendChild(title);
-    card.appendChild(author);
-    card.appendChild(pages);
-    card.appendChild(status);
-    card.appendChild(buttons);
-
-    output.appendChild(card);
-
-    changeStatusReading(changeStat, status);
-    listenBookCardRemoval(delBtn, Book.getID, card);
-}
-
-function changeStatusReading (changeStat, status) {
-    changeStat.addEventListener ('click', () => {        
-        if (status.textContent === 'Reading...') {
-            status.textContent = 'Finished';
-        } else {
-            status.textContent = 'Reading...';
-        }
-    });
-}
-
-addButton.addEventListener('click', () => {
-    form.reset();
-    dialog.showModal();
-});
-
-submitBtn.addEventListener('click', (event) => {
-    let book = getBookFromForm();
-
-    if (book !== undefined) {
-        addBookToLibrary(book);
-        createBookHTMLElement(book);
-        dialog.close();
     }
-});
 
-cancelBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    dialog.close();
-});
+    #listenBookCardRemovalBtn(delBtn, card, Book) {
+        delBtn.addEventListener('click', () => {
+            this.#output.removeChild(card);
+            this.#LibraryRef.removeBook(Book);
+        });
+    }
+
+    #createBookHTMLElement (Book) {
+        const card = document.createElement('div');
+        const title = document.createElement('h3');
+        const author = document.createElement('p');
+        const pages = document.createElement('p');
+        const status = document.createElement('p');
+        const buttons = document.createElement('div');
+        const delBtn = document.createElement('button');
+        const changeStat = document.createElement('button');
+
+        title.textContent = Book.getName();
+        author.textContent = Book.getAuthor();
+        pages.textContent = Book.getPages();
+        status.textContent = Book.getStatus();
+        card.className = 'card';
+        buttons.className = 'buttons';
+        delBtn.className = 'del-book';
+        delBtn.textContent = 'Delete';
+        changeStat.className = 'change-status-book';
+        changeStat.textContent = 'Change Status';
+
+        buttons.appendChild(changeStat);
+        buttons.appendChild(delBtn);
+        card.appendChild(title);
+        card.appendChild(author);
+        card.appendChild(pages);
+        card.appendChild(status);
+        card.appendChild(buttons);
+
+        this.#output.appendChild(card);
+
+        this.#listenChangeStatusBtn(changeStat, status, Book);
+        this.#listenBookCardRemovalBtn(delBtn, card, Book);
+    }
+}
+
+const library = new Library();
